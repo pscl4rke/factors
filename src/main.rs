@@ -37,9 +37,11 @@ fn test_factoring_of_square_numbers() {
 
 macro_rules! userfail {
     ($msg:expr) => {{
-        // FIXME: Should be stderr
-        println!("ERROR: {}", $msg);
-        return
+        use std::io::Write; // for the .write() method
+        let prog = std::env::args().nth(0).unwrap_or("ERROR".to_string());
+        let line = format!("{}: {}\n", prog, $msg);
+        std::io::stderr().write(line.as_bytes()).ok();
+        std::process::exit(1);
     }};
 }
 
