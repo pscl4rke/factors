@@ -36,5 +36,21 @@ fn test_factoring_of_square_numbers() {
 
 
 fn main() {
-    panic!("The CLI has not been implemented yet");
+    match std::env::args().nth(1) {
+        None => {
+            panic!("Missing number to factorise");
+        },
+        Some(n_str) => {
+            match n_str.parse() {
+                Err(_) => {
+                    panic!("Invalid number: {}", n_str);
+                },
+                Ok(n) => {
+                    for factor in factors_of(n) {
+                        println!("{}", factor);
+                    }
+                },
+            }
+        },
+    }
 }
