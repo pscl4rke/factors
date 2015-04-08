@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    panic!("The CLI has not been implemented yet");
 }
