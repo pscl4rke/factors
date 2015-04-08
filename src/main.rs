@@ -35,22 +35,25 @@ fn test_factoring_of_square_numbers() {
 }
 
 
+macro_rules! userfail {
+    ($msg:expr) => {{
+        // FIXME: Should be stderr
+        println!("ERROR: {}", $msg);
+        return
+    }};
+}
+
+
 fn main() {
-    match std::env::args().nth(1) {
-        None => {
-            panic!("Missing number to factorise");
-        },
-        Some(n_str) => {
-            match n_str.parse() {
-                Err(_) => {
-                    panic!("Invalid number: {}", n_str);
-                },
-                Ok(n) => {
-                    for factor in factors_of(n) {
-                        println!("{}", factor);
-                    }
-                },
-            }
-        },
+    let n_str = match std::env::args().nth(1) {
+        None => userfail!("Missing number to factorise"),
+        Some(n_str) => n_str,
+    };
+    let n = match n_str.parse() {
+        Err(_) => userfail!(format!("Invalid number: {}", n_str)),
+        Ok(n) => n,
+    };
+    for factor in factors_of(n) {
+        println!("{}", factor);
     }
 }
